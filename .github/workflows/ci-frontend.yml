@@ -93,8 +93,8 @@ jobs:
           cd gitops-repo
 
           # Cập nhật tag mới vào cả môi trường dev và prod (kustomization.yaml)
-          sed -i "s|ghcr.io/baongdqu/project-devops-webserver/frontend:.*|ghcr.io/baongdqu/project-devops-webserver/frontend\n    newTag: sha-${SHORT_SHA}|g" k8s/manifests/overlays/dev/kustomization.yaml
-          sed -i "s|ghcr.io/baongdqu/project-devops-webserver/frontend:.*|ghcr.io/baongdqu/project-devops-webserver/frontend\n    newTag: sha-${SHORT_SHA}|g" k8s/manifests/overlays/prod/kustomization.yaml
+          sed -i "/frontend/{n;s/newTag:.*/newTag: sha-${SHORT_SHA}/}" k8s/manifests/overlays/dev/kustomization.yaml
+          sed -i "/frontend/{n;s/newTag:.*/newTag: sha-${SHORT_SHA}/}" k8s/manifests/overlays/prod/kustomization.yaml
 
           # Commit & Push sang GitOps repo
           git add k8s/manifests/overlays/

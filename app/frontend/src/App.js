@@ -6,7 +6,12 @@ function App() {
   const [newTitle, setNewTitle] = useState('');
   const [backendStatus, setBackendStatus] = useState('Checking...');
 
-  const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+  // Tự động chuyển đổi: Dùng relative path '' khi chạy Production/Ingress, hoặc localhost:5000 khi chạy dev server port 3000
+  const API_BASE = process.env.REACT_APP_API_URL !== undefined
+    ? process.env.REACT_APP_API_URL
+    : (typeof window !== 'undefined' && window.location.hostname === 'localhost' && window.location.port === '3000'
+        ? 'http://localhost:5000'
+        : '');
 
   useEffect(() => {
     fetch(`${API_BASE}/api/health`)
